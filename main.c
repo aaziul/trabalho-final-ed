@@ -3,7 +3,7 @@
 #include <string.h>
 #include <locale.h>
 #include <time.h>
-#include "data.h"
+#include "func.h"
 
 
 /* OBJETIVO: O programa le um arquivo texto como entrada e gera um arquivo como saida com o conteudo do arquivo de entrada convertido para letras minusculas
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) //argc conta o numero de parametros e argv arma
                     fprintf(saida,"%s ", palavra); //strlwr eh a funcao que converte palavras para minusculo
                     palavra = strtok (NULL, separador); // pega a proxima palavra
                 }
-                fprintf(saida,"%s", "\n"); 
+                fprintf(saida,"%s", "\n");
             }
             fseek(entrada, 0, SEEK_SET); // volta para o inicio do arquivo
 
@@ -89,80 +89,34 @@ int main(int argc, char *argv[]) //argc conta o numero de parametros e argv arma
             height_abp = 1 + alturaArvore(rootABP); // calcula a altura da arvore abp
             n_nodos_avl = countNodesAVL(rootAVL); // conta o numero de nodos da arvore avl
             n_nodos_abp = contaNodos(rootABP); // conta o numero de nodos da arvore abp
-            printf("%d \n", comp_abp); // imprime o numero de comparacoes da abp
-            printf("%d \n", comp_avl); // imprime o numero de comparacoes da avl
-            printf("%d \n", height_abp); // imprime a altura da abp
-            printf("%d \n", height_avl); // imprime a altura da avl
-            printf("%d \n", n_nodos_abp); // imprime o numero de nodos da abp
-            printf("%d \n", n_nodos_avl); // imprime o numero de nodos da avl
-            printf("%d \n", rotations_abp); // imprime o numero de rotacoes da abp
-            printf("%d \n", rotations_avl); // imprime o numero de rotacoes da avl
-            printf("\nArquivo %s gerado com sucesso.\n",argv[3]);
+            //aaaaaa
+            stats = fopen ("Statistics.txt", "w");
+            // Verifica se o arquivo foi aberto com sucesso
+            if (stats == NULL) {
+                printf("Erro ao abrir o arquivo!\n");
+                return 1;
+            }
+            fprintf(stats, "========  ESTATÍSTICAS ABP ============\n"); // imprime o numero de nodos da abp
+
+            fprintf(stats, "Numero de Nodos: %d \n", n_nodos_abp); // imprime o numero de nodos da abp
+            fprintf(stats, "Altura: %d \n", height_abp); // imprime a altura da abp
+            fprintf(stats, "Rotações: %d \n", rotations_abp); // imprime o numero de rotacoes da abp
+            fprintf(stats, "Comparações: %d \n\n\n", comp_abp); // imprime o numero de comparacoes da abp
+
+            fprintf(stats, "========  ESTATÍSTICAS AVL ============\n"); // imprime o numero de nodos da abp
+            fprintf(stats, "Numero de Nodos: %d \n", n_nodos_avl); // imprime o numero de nodos da avl
+            fprintf(stats, "Altura: %d \n", height_avl); // imprime a altura da avl
+            fprintf(stats, "Rotações: %d \n", rotations_avl); // imprime o numero de rotacoes da avl
+            fprintf(stats, "Comparações: %d \n\n", comp_avl); // imprime o numero de comparacoes da avl
+
         }
+
 
         fclose (entrada); // fecha arquivo de entrada
         fclose (saida); // fecha arquivo de saida
+        fclose(stats);
+        puts("Processo finalizado");
 
         return 0;
     }
 }
-
-/*
-int main(int argc, char *argv[]) //argc conta o n�mero de par�metros e argv armazena as strings correspondentes aos par�mentros digitados
-{
-
-    setlocale(LC_ALL,""); //para imprimir corretamente na tela os caracteres acentuados
-
-    clock_t start, end; //para contar o tempo decorrido
-
-    FILE * entrada;
-    FILE * saida;
-
-    char *palavra, linha[1000]; // linhas a serem lidas do arquivo
-    char separador[]= {" ,.&*%\?!;/-'@\"$#=><()][}{:\n\t"};
-
-    if (argc!=3)  //o numero de parametros esperado � 3: nome do programa (argv[0]), nome do arq de entrada(argv[1]), nome do arq de saida(argv[2])
-    {
-        printf ("N�mero incorreto de par�metros.\n Para chamar o programa digite: exemplo <arq_entrada> <arq_saida>\n");
-        return 1;
-    }
-    else
-    {
-
-        entrada = fopen (argv[1], "r"); // abre o arquivo para leitura -- argv[1] � o primeiro par�metro ap�s o nome do arquivo.
-        if (entrada == NULL) //se n�o conseguiu abrir o arquivo
-        {
-            printf ("Erro ao abrir o arquivo %s",argv[1]);
-            return 1;
-        }
-        else // arquivo de entrada OK
-
-        {
-            saida = fopen (argv[2], "w"); // abre o arquivo para saida -- argv[2] � o segundo par�metro ap�s o nome do arquivo.
-
-            start = clock(); //inicia a contagem do tempo
-
-
-            //percorre todo o arquivo lendo linha por linha
-            while (fgets(linha,1000,entrada))
-            {
-                palavra = strtok (linha, separador); //considera qquer caractere n�o alfab�tico como separador
-                while (palavra != NULL)
-                {
-                    fprintf(saida,"%s ", strlwr(palavra)); //strlwr � a fun��o que converte palavras para min�sculo
-                    palavra = strtok (NULL, separador);
-                }
-            }
-
-            printf("\nArquivo %s gerado com sucesso.\n",argv[2]);
-
-            end = clock(); // finaliza contagem do tempo
-            float miliseconds = (float)(end - start) / CLOCKS_PER_SEC * 1000; //calcula o tempo decorrido
-            printf("Tempo: %.5f ms\n",miliseconds);
-        }
-        fclose (entrada); //fecha os arquivos
-        fclose (saida);
-        return 0;
-    }
-}
-*/
