@@ -54,4 +54,4 @@ int countNodesAVL(NodeAVL* root);
 int contaNodos(Node *a);
 
 void printTree(NodeAVL* root, int level);
-//int strcasecmp(const char *str1, const char *str2);
+int strcasecmp(const char *s1, const char *s2);
