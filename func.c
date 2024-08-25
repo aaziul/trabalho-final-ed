@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "data.h"
+#include "func.h"
 
 //--------------------------------------------------------------
 // VARIAVEIS GLOBAIS:
@@ -87,9 +87,9 @@ NodeAVL* insertNodeAVL(NodeAVL* node, char* word_key, char* word_sub){
         return createNodeAVL(word_key, word_sub); // se a árvore estiver vazia, retorna um novo no
 
     // insercao com base na ordem alfabetica da word_key
-    if (strcmp(word_key, node->word_key) < 0)
+    if (strcasecmp(word_key, node->word_key) < 0)
         node->left = insertNodeAVL(node->left, word_key, word_sub);
-    else if (strcmp(word_key, node->word_key) > 0)
+    else if (strcasecmp(word_key, node->word_key) > 0)
         node->right = insertNodeAVL(node->right, word_key, word_sub);
     else
         return node; // chaves duplicadas nao sao permitidas
@@ -103,26 +103,26 @@ NodeAVL* insertNodeAVL(NodeAVL* node, char* word_key, char* word_sub){
     // se o nó estiver desbalanceado, ha 4 casos a serem considerados:
 
     // caso 1: rotacao a direita
-    if (balance > 1 && strcmp(word_key, node->left->word_key) < 0){
+    if (balance > 1 && strcasecmp(word_key, node->left->word_key) < 0){
         rotations_avl++;
         return rightRotate(node);
     }
 
     // caso 2: rotacao a esquerda
-    if (balance < -1 && strcmp(word_key, node->right->word_key) > 0){
+    if (balance < -1 && strcasecmp(word_key, node->right->word_key) > 0){
         rotations_avl++;
         return leftRotate(node);
     }
 
     // caso 3: rotacao a esquerda-direita
-    if (balance > 1 && strcmp(word_key, node->left->word_key) > 0) {
+    if (balance > 1 && strcasecmp(word_key, node->left->word_key) > 0) {
         rotations_avl++;
         node->left = leftRotate(node->left);
         return rightRotate(node);
     }
 
     // caso 4: rotacao a direita-esquerda
-    if (balance < -1 && strcmp(word_key, node->right->word_key) < 0) {
+    if (balance < -1 && strcasecmp(word_key, node->right->word_key) < 0) {
         rotations_avl++;
         node->right = rightRotate(node->right);
         return leftRotate(node);
@@ -139,7 +139,7 @@ char* searchAVL(NodeAVL* root, char* word){
         return word; // Palavra não encontrada
     }
 
-    int comparison = strcmp(word, root->word_key);
+    int comparison = strcasecmp(word, root->word_key);
     if (comparison == 0) { // se a palavra for encontrada
         comp_avl++; // incrementa o contador de comparacoes da avl
         return root->word_sub; // Palavra encontrada
@@ -180,9 +180,9 @@ Node* insertNode(Node* root, char* word_key, char* word_sub){
         return createNode(word_key, word_sub); // retorna um novo no
     }
 
-    if (strcmp(word_key, root->word_key) < 0) { // se a palavra for menor que a palavra da raiz
+    if (strcasecmp(word_key, root->word_key) < 0) { // se a palavra for menor que a palavra da raiz
         root->left = insertNode(root->left, word_key, word_sub); // insere na subarvore esquerda
-    } else if (strcmp(word_key, root->word_key) > 0) { // se a palavra for maior que a palavra da raiz
+    } else if (strcasecmp(word_key, root->word_key) > 0) { // se a palavra for maior que a palavra da raiz
         root->right = insertNode(root->right, word_key, word_sub); // insere na subarvore direita
     }
 
@@ -191,12 +191,12 @@ Node* insertNode(Node* root, char* word_key, char* word_sub){
 
 // funcao para consultar uma palavra na arvore abp
 char* searchTree(Node* root, char* word) {
-    if (root == NULL) { // se a raiz for NULL 
+    if (root == NULL) { // se a raiz for NULL
         comp_abp++; // incrementa o contador de comparacoes da abp
         return word; // Palavra não encontrada
     }
 
-    int comparison = strcmp(word, root->word_key); // compara a palavra com a palavra da raiz
+    int comparison = strcasecmp(word, root->word_key); // compara a palavra com a palavra da raiz
 
     if (comparison == 0) { // se a palavra for encontrada
         comp_abp++; // incrementa o contador de comparacoes da abp
@@ -299,4 +299,11 @@ void printTree(NodeAVL* root, int level) {
 
     // depois imprime a subarvore esquerda
     printTree(root->left, level + 1);
+}
+
+int strcasecmp(const char *s1, const char *s2){
+    while (tolower(*s1) == tolower(*s2++))
+		if (tolower(*s1++) == '\0')
+			return (0);
+	return (tolower(*(const unsigned char *)s1) - tolower(*(const unsigned char *)(s2 - 1)));
 }
