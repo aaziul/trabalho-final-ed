@@ -4,7 +4,7 @@ O objetivo do trabalho é criar um programa que funciona como um corretor ortogr
 
 ## Código
 <ul>
-    <li><b>Arquivo "data.h":</b> Onde salvamos as definições estruturais da árvore AVL e da árvore escolhida, BP, e as declarações das funções utilizadas.</li>
-    <li><b>Arquivo "data.c":</b> Arquivo onde é declarado as variáveis globais do programa e onde estão armazenadas todas as funções utilizadas no programa com suas especificações detalhadas, comentadas e devidamente separadas pelas árvores utilizadas na função.</li>
+    <li><b>Arquivo "func.h":</b> Onde salvamos as definições estruturais da árvore AVL e da árvore escolhida, BP, e as declarações das funções utilizadas.</li>
+    <li><b>Arquivo "func.c":</b> Arquivo onde é declarado as variáveis globais do programa e onde estão armazenadas todas as funções utilizadas no programa com suas especificações detalhadas, comentadas e devidamente separadas pelas árvores utilizadas na função.</li>
     <li><b>Arquivo "main.c":</b> Neste arquivo temos a função principal do programa, onde unimos as funções do arquivo “data.c” e as estruturas do arquivo “data.h” para que o programa seja executado de acordo com as especificações do trabalho final.</li>
 </ul>
